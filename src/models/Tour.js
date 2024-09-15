@@ -7,7 +7,8 @@ Preço: Valor cobrado pelo passeio, obrigatório.
 Data: Data em que o passeio será realizado, obrigatório.*/
 
 const { connection } = require('../database/connection');
-const { DataTypes } = require('sequelize');
+const { DataTypes, Sequelize} = require('sequelize');
+
 const User = require('./User');
 
 const Tour = connection.define('tours', {
@@ -43,10 +44,10 @@ const Tour = connection.define('tours', {
         type: DataTypes.DATEONLY,
         allowNull: false
     },
-    usuarioId: {
+    userId: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'usuarios',
+            model: 'users',
             key: 'id'
         },
         allowNull: false,
@@ -59,12 +60,12 @@ const Tour = connection.define('tours', {
         indexes: [
             {
                 unique: true,
-                fields: ['nome', 'usuarioId']  // Nome único por guia
+                fields: ['name', 'userId']  // Nome único por guia
             }
         ]
     });
 
-User.hasMany(Tour, { foreignKey: 'usuarioId' });
-Tour.belongsTo(User, { foreignKey: 'usuarioId' });
+User.hasMany(Tour, { foreignKey: 'userId' });
+Tour.belongsTo(User, { foreignKey: 'userId' });
 
 module.exports = Tour;

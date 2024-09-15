@@ -10,7 +10,8 @@ Apenas turistas autenticados podem acessar suas reservas.
 O turista pode cancelar a reserva diretamente por essa página.*/
 
 const { connection } = require('../database/connection');
-const { DataTypes } = require('sequelize');
+const { DataTypes, Sequelize } = require('sequelize');
+const {DataTypes} = require('sequelize');
 const User = require('./User');
 const Tour = require('./Tour');
 
@@ -28,7 +29,7 @@ const Booking = connection.define('bookings', {
     tourId: {
         type: DataTypes.INTEGER,
         references: {
-            model: 'tour',
+            model: 'tours',
             key: 'id'
         },
         allowNull: false,

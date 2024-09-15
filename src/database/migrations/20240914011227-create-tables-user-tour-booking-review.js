@@ -6,57 +6,74 @@ module.exports = {
       await queryInterface.createTable('users', {
         id: {
           type: Sequelize.INTEGER,
-          autoIncrement: true,
           primaryKey: true,
+          autoIncrement: true
         },
-        nome: {
+        name: {
           type: Sequelize.STRING,
-          allowNull: false,
+          allowNull: false
         },
         email: {
           type: Sequelize.STRING,
+          allowNull: false,
           unique: true,
-          allowNull: false,
+          validate: {
+            isEmail: { msg: 'Invalid email format' },
+          }
         },
-        tipo: {
+        password: {
+          type: Sequelize.STRING,
+          allowNull: false
+        },
+        phone: {
+          type: Sequelize.STRING,
+          allowNull: false
+        },
+        type_user: {
           type: Sequelize.ENUM('guia', 'turista'),
-          allowNull: false,
+          allowNull: false
         },
         createdAt: {
-          type: Sequelize.DATE,
           allowNull: false,
-          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+          type: Sequelize.DATE
         },
         updatedAt: {
-          type: Sequelize.DATE,
           allowNull: false,
-          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+          type: Sequelize.DATE
         }
       });
       await queryInterface.createTable('tours', {
         id: {
           type: Sequelize.INTEGER,
-          autoIncrement: true,
           primaryKey: true,
+          autoIncrement: true
         },
-        nome: {
-          type: Sequelize.STRING,
+        name: {
+          type: Sequelize.STRING(100),
           allowNull: false,
+          validate: {
+            notEmpty: true,
+            len: [1, 100]
+          }
         },
         local: {
           type: Sequelize.STRING,
-          allowNull: false,
+          allowNull: false
         },
-        descricao: {
+        description: {
           type: Sequelize.STRING(500),
+          allowNull: true
         },
-        preco: {
-          type: Sequelize.FLOAT,
+        price: {
+          type: Sequelize.DECIMAL(10, 2),
           allowNull: false,
+          validate: {
+            isDecimal: true
+          }
         },
-        data: {
-          type: Sequelize.DATE,
-          allowNull: false,
+        date: {
+          type: Sequelize.DATEONLY,
+          allowNull: false
         },
         userId: {
           type: Sequelize.INTEGER,
@@ -64,98 +81,105 @@ module.exports = {
             model: 'users',
             key: 'id'
           },
-          allowNull: false
-        },
-        createdAt: {
-          type: Sequelize.DATE,
           allowNull: false,
-          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-        },
-        updatedAt: {
-          type: Sequelize.DATE,
-          allowNull: false,
-          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE'
         }
+      },
+        {
+          timestamps: false,
+          indexes: [
+            {
+              unique: true,
+              fields: ['name', 'userId']  // Nome único por guia
+            }
+          ]
       });
 
       await queryInterface.createTable('bookings', {
         id: {
           type: Sequelize.INTEGER,
-          autoIncrement: true,
           primaryKey: true,
+          autoIncrement: true
         },
         status: {
           type: Sequelize.ENUM('ativa', 'cancelada'),
           defaultValue: 'ativa',
-          allowNull: false,
+          allowNull: false
         },
         tourId: {
           type: Sequelize.INTEGER,
           references: {
             model: 'tours',
-            key: 'id',
+            key: 'id'
           },
           allowNull: false,
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE'
         },
         userId: {
           type: Sequelize.INTEGER,
           references: {
             model: 'users',
-            key: 'id',
+            key: 'id'
           },
           allowNull: false,
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE'
         },
         createdAt: {
-          type: Sequelize.DATE,
           allowNull: false,
-          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+          type: Sequelize.DATE
         },
         updatedAt: {
-          type: Sequelize.DATE,
           allowNull: false,
-          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+          type: Sequelize.DATE
         }
       });
 
       await queryInterface.createTable('reviews', {
         id: {
           type: Sequelize.INTEGER,
-          autoIncrement: true,
           primaryKey: true,
+          autoIncrement: true
         },
-        comentario: {
-          type: Sequelize.STRING(500),
-          allowNull: false,
-        },
-        nota: {
+        note: {
           type: Sequelize.INTEGER,
           allowNull: false,
+          validate: {
+            min: 0,
+            max: 5
+          }
+        },
+        comment: {
+          type: Sequelize.STRING(500),
+          allowNull: true
         },
         tourId: {
           type: Sequelize.INTEGER,
           references: {
             model: 'tours',
-            key: 'id',
+            key: 'id'
           },
-          allowNull: false,
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE'
         },
         userId: {
           type: Sequelize.INTEGER,
           references: {
             model: 'users',
-            key: 'id',
+            key: 'id'
           },
-          allowNull: false,
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE'
         },
         createdAt: {
-          type: Sequelize.DATE,
           allowNull: false,
-          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+          type: Sequelize.DATE
         },
         updatedAt: {
-          type: Sequelize.DATE,
           allowNull: false,
-          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+          type: Sequelize.DATE
         }
       });
 
