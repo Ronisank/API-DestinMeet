@@ -6,6 +6,6 @@ const tourRoutes = require('./tours.route');
 const routes = Router();
 
 routes.use('/User',userRoutes);
-routes.use('/Tour',tourRoutes)
+routes.use('/Tour',tourRoutes);
 
 module.exports = routes;
