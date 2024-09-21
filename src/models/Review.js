@@ -8,7 +8,7 @@ Apenas turistas que participaram do passeio podem avaliá-lo.
 A nota e o comentário serão exibidos para outros usuários que visualizaram o passeio.*/
 
 const { connection } = require('../database/connection');
-const { DataTypes, Sequelize } = require('sequelize');
+const { Sequelize } = require('sequelize');
 const {DataTypes} = require('sequelize');
 const User = require('./User');
 const Tour = require('./Tour');
