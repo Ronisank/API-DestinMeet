@@ -12,7 +12,7 @@ O turista pode cancelar a reserva diretamente por essa página.*/
 const { connection } = require('../database/connection');
 const { Sequelize } = require('sequelize');
 const {DataTypes} = require('sequelize');
-const User = require('./User');
+const {User} = require('./User');
 const Tour = require('./Tour');
 
 const Booking = connection.define('bookings', {

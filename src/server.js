@@ -28,6 +28,7 @@ class Server {
     async initializeServer(app) {
         app.listen(PORT_API, () => console.log(`Server is running on port ${PORT_API}`));
     }
+    
 }
 
 module.exports = { Server }; //? Export the Server class

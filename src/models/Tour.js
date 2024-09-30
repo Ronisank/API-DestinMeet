@@ -9,7 +9,7 @@ Data: Data em que o passeio será realizado, obrigatório.*/
 const { connection } = require('../database/connection');
 const { DataTypes, Sequelize} = require('sequelize');
 
-const User = require('./User');
+const {User} = require('./User');
 
 const Tour = connection.define('tours', {
     id: {

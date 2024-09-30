@@ -44,4 +44,4 @@ const User = connection.define('users', {
 });
 
 
-module.exports = User;
+module.exports = {User};

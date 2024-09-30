@@ -10,7 +10,7 @@ A nota e o comentário serão exibidos para outros usuários que visualizaram o 
 const { connection } = require('../database/connection');
 const { Sequelize } = require('sequelize');
 const {DataTypes} = require('sequelize');
-const User = require('./User');
+const {User} = require('./User');
 const Tour = require('./Tour');
 
 const Review = connection.define('reviews', {
