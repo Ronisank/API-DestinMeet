@@ -11,8 +11,8 @@ const routes = Router();
 
 routes.use('/User', userRoutes);
 routes.use('/Tour', auth, tourRoutes);
-routes.use('/Booking',bookingRoutes);
-routes.use('/Review',reviewRoutes);
+routes.use('/Booking', auth, bookingRoutes);
+routes.use('/Review', auth, reviewRoutes);
 routes.use('/Login',authRoutes);
 
 module.exports = routes;
