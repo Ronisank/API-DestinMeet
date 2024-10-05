@@ -10,26 +10,56 @@ Apenas turistas autenticados podem acessar suas reservas.
 O turista pode cancelar a reserva diretamente por essa página.*/
 
 const { connection } = require('../database/connection');
-const { DataTypes } = require('sequelize');
+const { Sequelize } = require('sequelize');
+const {DataTypes} = require('sequelize');
+const {User} = require('./User');
+const Tour = require('./Tour');
 
 const Booking = connection.define('bookings', {
-    name: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    local: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    date: {
-        type: DataTypes.DATE,
-        allowNull: false
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
     },
     status: {
-        type: DataTypes.BOOLEAN,
+        type: Sequelize.ENUM('ativa', 'cancelada'),
+        defaultValue: 'ativa',
+        allowNull: false
+    },
+    tourId: {
+        type: Sequelize.INTEGER,
+        references: {
+            model: 'tours',
+            key: 'id'
+        },
         allowNull: false,
-        
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+    },
+    userId: {
+        type: Sequelize.INTEGER,
+        references: {
+            model: 'user',
+            key: 'id'
+        },
+        allowNull: false,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+}, 
+    createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+    },
+    updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
     }
+
 });
+
+User.hasMany(Booking, { foreignKey: 'userId' });
+Booking.belongsTo(User, { foreignKey: 'userId' });
+Tour.hasMany(Booking, { foreignKey: 'tourId' });
+Booking.belongsTo(Tour, { foreignKey: 'tourId' });
 
 module.exports = Booking;
